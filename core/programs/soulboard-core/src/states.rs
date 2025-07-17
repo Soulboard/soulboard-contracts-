@@ -90,3 +90,15 @@ pub struct CampaignCreated {
 pub struct BudgetAdded {
     pub authority: Pubkey,
 }
+
+#[event]
+pub struct LocationAdded {
+    pub campaign_id: u32,
+    pub location: Pubkey,
+}
+
+#[event]
+pub struct LocationRemoved {
+    pub campaign_id: u32,
+    pub location: Pubkey,
+}
