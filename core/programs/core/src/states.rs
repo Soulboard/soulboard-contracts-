@@ -69,3 +69,24 @@ pub struct DeviceOrder {
     pub device_id: u32,
     pub order_status: OrderStatus,
 }
+
+#[event]
+pub struct DeviceOrdered {
+    pub device_id: u32,
+    pub device_state: DeviceState,
+}
+
+#[event]
+pub struct ProviderRegistered {
+    pub authority: Pubkey,
+}
+
+#[event]
+pub struct CampaignCreated {
+    pub authority: Pubkey,
+}
+
+#[event]
+pub struct BudgetAdded {
+    pub authority: Pubkey,
+}

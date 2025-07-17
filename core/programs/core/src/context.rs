@@ -82,6 +82,8 @@ pub struct AddLocation<'info> {
     )]
     pub campaign: Account<'info, Campaign>,
 
+    
+
     pub system_program: Program<'info, System>,
 }
 
