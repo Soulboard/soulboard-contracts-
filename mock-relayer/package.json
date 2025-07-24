@@ -1,0 +1,16 @@
+{
+  "name": "mock-relyaer",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.9.0",
+    "zod": "^4.0.8"
+  }
+}
