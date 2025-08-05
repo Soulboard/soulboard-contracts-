@@ -1,0 +1,305 @@
+{
+  "address": "xF4A8Ksy6WSzJpskfiVUit4osedmBorP3bgDe9uKu2e",
+  "metadata": {
+    "name": "oracle",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "initialize_device_feed",
+      "docs": [
+        "Create the feed once (e.g. when a device is first registered)."
+      ],
+      "discriminator": [
+        105,
+        189,
+        105,
+        42,
+        142,
+        191,
+        163,
+        123
+      ],
+      "accounts": [
+        {
+          "name": "feed",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  118,
+                  105,
+                  99,
+                  101,
+                  95,
+                  102,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "channel_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "Device owner or DAO multisig that’s allowed to push updates"
+          ],
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "channel_id",
+          "type": "u32"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "update_device_feed",
+      "docs": [
+        "Keeper pushes deltas since `last_entry_id`. We store **running totals**."
+      ],
+      "discriminator": [
+        207,
+        28,
+        88,
+        46,
+        66,
+        19,
+        231,
+        173
+      ],
+      "accounts": [
+        {
+          "name": "feed",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  118,
+                  105,
+                  99,
+                  101,
+                  95,
+                  102,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "channel_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "_channel_id",
+          "type": "u32"
+        },
+        {
+          "name": "newest_entry_id",
+          "type": "u32"
+        },
+        {
+          "name": "delta_views",
+          "type": "u64"
+        },
+        {
+          "name": "delta_taps",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DeviceFeed",
+      "discriminator": [
+        148,
+        156,
+        211,
+        142,
+        23,
+        149,
+        206,
+        54
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "DeviceFeedInitialized",
+      "discriminator": [
+        119,
+        24,
+        34,
+        171,
+        69,
+        27,
+        43,
+        44
+      ]
+    },
+    {
+      "name": "DeviceFeedUpdated",
+      "discriminator": [
+        247,
+        146,
+        54,
+        198,
+        65,
+        63,
+        44,
+        52
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BadAuthority",
+      "msg": "Caller not authorised"
+    },
+    {
+      "code": 6001,
+      "name": "NoNewData",
+      "msg": "Nothing new to record"
+    },
+    {
+      "code": 6002,
+      "name": "Overflow",
+      "msg": "Math overflow"
+    }
+  ],
+  "types": [
+    {
+      "name": "DeviceFeed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "channel_id",
+            "type": "u32"
+          },
+          {
+            "name": "last_entry_id",
+            "type": "u32"
+          },
+          {
+            "name": "total_views",
+            "type": "u64"
+          },
+          {
+            "name": "total_taps",
+            "type": "u64"
+          },
+          {
+            "name": "last_update_ts",
+            "type": "i64"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DeviceFeedInitialized",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "channel_id",
+            "type": "u32"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "ts",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DeviceFeedUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "channel_id",
+            "type": "u32"
+          },
+          {
+            "name": "new_entry_id",
+            "type": "u32"
+          },
+          {
+            "name": "delta_views",
+            "type": "u64"
+          },
+          {
+            "name": "delta_taps",
+            "type": "u64"
+          },
+          {
+            "name": "total_views",
+            "type": "u64"
+          },
+          {
+            "name": "total_taps",
+            "type": "u64"
+          },
+          {
+            "name": "ts",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ]
+}
